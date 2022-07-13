@@ -1,0 +1,40 @@
+//inorder traversal of the tree
+class Solution {
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> a=new ArrayList<Integer>();
+        helper(a,root);
+        return a;
+        }
+    public void helper(List<Integer> a,TreeNode root)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        helper(a,root.left);
+        a.add(root.val);
+        helper(a,root.right);
+    }
+
+
+//symetric traversal of the tree
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root==null)
+            return true;
+        return helper(root.left,root.right);
+        
+    }
+    boolean helper(TreeNode lr,TreeNode rr)
+    {
+        boolean isref;
+        if(rr==null && lr==null)
+            return true;
+        else if((rr==null && lr!=null )||(lr==null && rr!=null))
+            return false;
+        else
+            isref=rr.val==lr.val&&helper(lr.left,rr.right)&&helper(lr.right,rr.left);
+        return isref;
+            
+    }
+}
