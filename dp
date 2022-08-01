@@ -1,0 +1,58 @@
+count partitions with given sum
+int mod=1e9+7;
+int f(int ind,int sum,vector<int> &num,vector<vector<int>> &dp)
+{
+    if(ind==0)
+    {
+        if(sum==0 && num[0]==0) return 2;
+        if(sum==0 || num[0]==0) return 2;
+        return 0;
+    }
+    if(dp[ind][sum]!=-1)
+    {
+        return dp[ind][sum];
+    }
+    int nottake=f(ind-1,sum,num,dp);
+    int take=0;
+    if(num[ind]<=sum)
+        take=f(ind-1,sum-num[ind],num,dp);
+    return take+nottake;
+}
+int findways(vector<int> &num,int tar)
+{
+    int n=num.size();
+     vector<vector<int>> dp(n,vector<int>(tar+1,0));
+    if(num[0]==0) dp[0][0]=2;
+    else dp[0][0]=1;
+    if(num[0]!=0 && num[0]<=tar)dp[0][num[0]]=1;
+    for(int ind=1;ind<n;ind++)
+    {
+        for(int sum=0;sum<=tar;sum++)
+        {
+            int nottake=dp[ind-1][sum];
+            int take=0;
+            if(num[ind]<=sum) take=dp[ind-1][sum-num[ind]];
+            dp[ind][sum]=(nottake+take)%mod;
+        }
+    }
+    return dp[n-1][tar];
+}
+int countPartitions(int n, int d, vector<int> &arr) {
+    // Write your code here.
+    int tosum=0;
+  //  vector<vector<int>> dp(n,vector<int>(tar+1,0));
+   // vector<vector<int>> dp<n+1,dp<(tosum-d)/2,-1>>;
+        
+        
+        
+        
+        
+        
+        
+     for(auto &it:arr)
+        tosum+=it;
+    if((tosum-d<0)||(tosum-d)%2) return false;
+    // vector<vector<int>> dp<n+1,dp<(tosum-d)/2,-1>>;
+    return findways(arr,(tosum-d)/2);
+}
+
